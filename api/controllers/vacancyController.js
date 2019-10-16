@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-import { createVacancy } from '../services/servicesVacancy';
+import { createVacancy } from '../services/vacancyService';
 
 router.post('/', async (request, response) => {
     const dataVacancy = {

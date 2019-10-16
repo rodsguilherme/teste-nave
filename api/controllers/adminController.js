@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-import { createAdmin } from '../services/servicesAdmin';
-import { verifyAdmin } from '../services/servicesAdmin';
+import { createAdmin } from '../services/adminService';
+import { verifyAdmin } from '../services/adminService';
 
 
 

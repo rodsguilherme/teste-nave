@@ -1,6 +1,6 @@
 const database = require('../database/connectDB');
 
-import { createHash, verifyPass } from './servicesCryptografy';
+import { createHash, verifyPass } from './cryptografyService';
 
 
 
