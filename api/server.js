@@ -14,8 +14,9 @@ api.get('/', (req, res) => {
 
 
 require('./controllers/vacancyController')(api);
+require('./controllers/adminController')(api);
 
-const port = 3001;
+const port = 3000;
 api.listen(port, () => {
     console.log(`Api rodando na porta: ${port}`);
 })
