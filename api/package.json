@@ -4,16 +4,24 @@
   "description": "Teste para vaga de Back-end na Nave",
   "main": "server.js",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "sqlite3": "^4.1.0"
+    "md5": "^2.2.1",
+    "sqlite3": "^4.1.0",
+    "sqlite3-promisify": "^1.0.0"
   },
   "devDependencies": {
-    "babel-plugin-root-import": "^6.4.1"
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.6",
+    "babel-plugin-root-import": "^6.4.1",
+    "babel-preset-env": "^1.7.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon run server.js"
+    "dev": "nodemon server.js --exec babel-node --presets babel-preset-env",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
