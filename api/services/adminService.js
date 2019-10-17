@@ -1,7 +1,7 @@
 import database from '../database/connectDB';
 import { createHash, verifyHash } from './cryptografyService';
 
-const createAdmin = async (dataAdmin) => {
+const createAdmin = async dataAdmin => {
     const { name, password } = dataAdmin;
 
     if (!name || !password) {
@@ -27,7 +27,7 @@ const verifyAdmin = async (dataAdmin) => {
     const match = verifyHash(password, selected.password);
 
     if (match === false) {
-        throw ("Usuário ou senha incorretas!");
+        throw ("Senha incorreta!");
     }
 };
 
