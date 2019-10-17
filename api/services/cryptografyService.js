@@ -6,8 +6,8 @@ const createHash = (text) => {
     return bcrypt.hashSync(`${text}${saltKey}`, saltRounds);
 }
 
-const verifyPass = (password, passwordHash) => {
-   return bcrypt.compareSync(password, passwordHash);
+const verifyHash = (textToCripto, textToCompare) => {
+   return bcrypt.compareSync(textToCripto, textToCompare);
 }
 
-module.exports = { createHash, verifyPass };
+module.exports = { createHash, verifyHash };
