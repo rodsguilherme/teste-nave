@@ -1,6 +1,7 @@
 import database from '../database/connectDB';
 import { createHash, verifyHash } from './cryptografyService';
 import { emailValidation } from './validationService';
+import {tokenGenerator} from './authService';
 
 const createAdmin = async dataAdmin => {
     const { name, password, email } = dataAdmin;
@@ -17,7 +18,7 @@ const createAdmin = async dataAdmin => {
 };
 
 const verifyAdmin = async dataAdmin => {
-    const { password, email } = dataAdmin;
+    const { password, email, id } = dataAdmin;
 
     if (!password) {
         throw ("Preencha os dados corretamente!");
@@ -33,10 +34,11 @@ const verifyAdmin = async dataAdmin => {
         throw ("Usuário ou senha incorretas!");
     }
     const match = verifyHash(password, adminSelected.password);
-
     if (match === false) {
         throw ("Senha incorreta!");
     }
+   
+    
 };
 
 
