@@ -1,6 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser')
+import express from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
+
 const api = express();
 
 api.use(cors());
@@ -12,7 +13,7 @@ api.get('/', (req, res) => {
     res.send('hello');
 })
 
-
+require('./controllers/candidateController')(api);
 require('./controllers/vacancyController')(api);
 require('./controllers/adminController')(api);
 

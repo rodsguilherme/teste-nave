@@ -1,9 +1,9 @@
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 const saltRounds = 10;
 const saltKey = '!VWi@g:a:b"<^|a';
 
 const createHash = (text) => {
-    return bcrypt.hashSync(`${text}${saltKey}`, 10);
+    return bcrypt.hashSync(`${text}${saltKey}`, saltRounds);
 }
 
 const verifyPass = (password, passwordHash) => {

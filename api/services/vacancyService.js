@@ -8,7 +8,7 @@ const createVacancy = async (dataVacancy) => {
     }
     const insert = 'INSERT INTO Vacancy (name, skill, description) VALUES (?,?,?)';
     await database.run(insert, [name, skill, description]);
-
+    database.close();
 };
 
 module.exports = { createVacancy };
