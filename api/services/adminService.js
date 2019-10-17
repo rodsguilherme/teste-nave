@@ -1,30 +1,38 @@
 import database from '../database/connectDB';
 import { createHash, verifyHash } from './cryptografyService';
+import { emailValidation } from './validationService';
 
 const createAdmin = async dataAdmin => {
-    const { name, password } = dataAdmin;
+    const { name, password, email } = dataAdmin;
 
     if (!name || !password) {
         throw ("Preencha os dados corretamente!");
     }
+    if(emailValidation(email) === false) {
+        throw ("Insira um email válido");
+    }
 
-    const insert = 'INSERT INTO Admin (name, password) VALUES (?, ?)';
-    await database.run(insert, [name, createHash(password)]);
+    const insertAdmin = 'INSERT INTO Admin (name, password) VALUES (?, ?)';
+    await database.run(insertAdmin, [name, createHash(password), email]);
 };
 
-const verifyAdmin = async (dataAdmin) => {
-    const { name, password } = dataAdmin;
+const verifyAdmin = async dataAdmin => {
+    const { password, email } = dataAdmin;
 
-    if (!name || !password) {
+    if (!password) {
         throw ("Preencha os dados corretamente!");
     }
+    if (emailValidation(email) === false) {
+        throw ("Insira um email válido.");
+    }
 
-    const select = 'SELECT * FROM Admin WHERE name = ?';
-    const selected = await database.get(select, [name]);
-    if (selected == null) {
+    const selectByEmail = 'SELECT idAdmin FROM Admin WHERE email = ?';
+    const adminSelected = await database.get(selectByEmail, [email]);
+
+    if (adminSelected == null) {
         throw ("Usuário ou senha incorretas!");
     }
-    const match = verifyHash(password, selected.password);
+    const match = verifyHash(password, adminSelected.password);
 
     if (match === false) {
         throw ("Senha incorreta!");
