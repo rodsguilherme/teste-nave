@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
 
 import { createAdmin } from '../services/adminService';
@@ -17,7 +17,7 @@ router.post('/', async (request, response) => {
         response.status(201).send('Administrador criado com sucesso!');
 
     } catch (error) {
-        response.status(400).send('Não possivel cadastrar, verifique os campos.');
+        response.status(400).send({ Error: error });
     }
 
 });
@@ -33,8 +33,9 @@ router.post('/login', async (request, response) => {
         response.status(200).send('Conectado com sucesso!');
 
     } catch (error) {
-        response.status(400).send({ Error });
-    }
+        response.status(400).send('Usuário ou senha incorretas, tente novamente.');
+}
+
 });
 
 module.exports = (api) => api.use('/api/admin', router); 

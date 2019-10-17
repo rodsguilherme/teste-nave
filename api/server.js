@@ -13,9 +13,11 @@ api.get('/', (req, res) => {
     res.send('hello');
 })
 
+require('./controllers/subscriptionController')(api);
 require('./controllers/candidateController')(api);
 require('./controllers/vacancyController')(api);
 require('./controllers/adminController')(api);
+
 
 const port = 3000;
 api.listen(port, () => {

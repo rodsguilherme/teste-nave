@@ -1,5 +1,6 @@
 import express from 'express';
 const router = express.Router();
+
 import { createVacancy } from '../services/vacancyService';
 
 router.post('/', async (request, response) => {
@@ -13,6 +14,7 @@ router.post('/', async (request, response) => {
         response.status(201).send('Vaga cadastrada com sucesso!');
 
     } catch (error) {
+        console.log(error)
         response.status(400).send('Não foi possivel cadastrar, verifique os campos.');
     }
 });

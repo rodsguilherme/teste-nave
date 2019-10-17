@@ -1,5 +1,5 @@
 import database from '../database/connectDB';
-import { createHash, verifyPass } from './cryptografyService';
+import { createHash, verifyHash } from './cryptografyService';
 
 const createAdmin = async (dataAdmin) => {
     const { name, password } = dataAdmin;
@@ -21,11 +21,10 @@ const verifyAdmin = async (dataAdmin) => {
 
     const select = 'SELECT * FROM Admin WHERE name = ?';
     const selected = await database.get(select, [name]);
-    database.close();
-    if (selected.password == null) {
+    if (selected == null) {
         throw ("Usuário ou senha incorretas!");
     }
-    const match = verifyPass(password, selected.password);
+    const match = verifyHash(password, selected.password);
 
     if (match === false) {
         throw ("Usuário ou senha incorretas!");

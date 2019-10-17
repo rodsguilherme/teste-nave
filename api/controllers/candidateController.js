@@ -14,10 +14,10 @@ router.post('/', async (request, response) => {
         await createCandidate(dataCandidate);
         response.status(201).send('Candidato cadastrado com sucesso!');
     } catch (error) {
-        console.log(error);
+        console.log(error)
         response.status(400).send({ error });
     }
 });
 
 
-module.exports = (api) => api.use('/api/admin/candidate', router)
+module.exports = (api) => api.use('/api/admin/candidato', router)
