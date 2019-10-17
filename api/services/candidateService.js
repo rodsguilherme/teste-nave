@@ -19,15 +19,15 @@ const createCandidate = async dataCandidate => {
     }
 
     const selectByEmail = 'SELECT idCandidate FROM Candidate WHERE email = ?';
-    const row = await database.get(selectEmail, [email]);
+    const row = await database.get(selectByEmail, [email]);
 
     if (row != null) {
         throw ("Esse email já foi cadastrado, tente novamente com outro.");
     }
     const selectByCpf = 'SELECT idCandidate FROM Candidate WHERE cpf = ?';
-    const cpfSelected = await database.get(selectByCpf, [cpf]);
+    const candidateSelected = await database.get(selectByCpf, [cpf]);
 
-    if (cpfSelected !== null) {
+    if (candidateSelected !== null) {
         throw ("Usuário já cadastrado.");
     }
     const insert = 'INSERT INTO Candidate (name, email, telephone, cpf) VALUES (?, ?, ?, ?)';
