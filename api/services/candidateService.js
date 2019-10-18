@@ -57,7 +57,7 @@ const ifCandidateExists = async id => {
 
     const candidateIsValid = 'SELECT idCandidate FROM Candidate WHERE idCandidate = ?';
     const candidate = await database.get(candidateIsValid, [idCandidate]);
-    console.log(candidate)
+    
     if (candidate == undefined) {
         return false;
     }

@@ -23,13 +23,13 @@ const ifVacancyExists = async vacancy => {
     const id = vacancy;
 
     if (!id || id === 0) {
-        return false
+        return false;
     }
     const checkVacancy = 'SELECT idVacancy FROM Vacancy WHERE idVacancy = ?';
     const vacancyChecked = await database.get(checkVacancy, [id]);
 
     if (vacancyChecked === undefined) {
-        return false
+        return false;
     }
     return true;
 };
