@@ -10,6 +10,7 @@ router.post('/', async (request, response) => {
         telephone: request.body.telephone,
         cpf: request.body.cpf
     };
+ 
     try {
         await createCandidate(dataCandidate);
         response.status(201).send('Candidato cadastrado com sucesso!');

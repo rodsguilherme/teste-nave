@@ -9,9 +9,9 @@ const createCandidate = async dataCandidate => {
 
     await verifyCandidate(dataCandidate);
     const insertCandidate = 'INSERT INTO Candidate (name, email, telephone, cpf) VALUES (?, ?, ?, ?)';
-    
+
     await database.run(insertCandidate, [name, email, telephone, cpf]);
-    
+
 };
 
 const verifyCandidate = async candidateChecked => {
@@ -20,17 +20,16 @@ const verifyCandidate = async candidateChecked => {
     if (!name) {
         throw ("Insira o nome.");
     }
-    if (validate(cpf) == false) {
+    if (!validate(cpf)) {
         throw ("Insira um CPF valido");
     }
 
-    const emailChecked = emailValidation(email);
-    if (emailChecked == false) {
+    if (!emailValidation(email)) {
         throw ("Insira um email valido");
     }
 
-    const telephoneChecked = telephoneValidation(telephone);
-    if (telephoneChecked == false) {
+
+    if (!telephoneValidation(telephone)) {
         throw ("Insira um telefone valido.");
     }
 
@@ -47,6 +46,21 @@ const verifyCandidate = async candidateChecked => {
     await Promise.reject('Email já cadastrado').catch(err => {
         throw (err);
     });
-}
+};
 
-module.exports = { createCandidate };
+const ifCandidateExists = async id => {
+    const idCandidate = id;
+
+    if (!idCandidate || idCandidate <= 0) {
+        return false;
+    }
+
+    const candidateIsValid = 'SELECT idCandidate FROM Candidate WHERE idCandidate = ?';
+    const candidate = await database.get(candidateIsValid, [idCandidate]);
+    console.log(candidate)
+    if (candidate == undefined) {
+        return false;
+    }
+    return true;
+}
+module.exports = { createCandidate, ifCandidateExists };

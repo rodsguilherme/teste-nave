@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import { createAdmin, login } from '../services/adminService';
+import { createAdmin, loginAdmin } from '../services/adminService';
 
 
 router.post('/', async (request, response) => {
@@ -29,7 +29,7 @@ router.post('/login', async (request, response) => {
 
    
     try {
-        await login(dataAdmin);
+        await loginAdmin(dataAdmin);
         
         response.status(200).send('Conectado com sucesso');
 

@@ -1,44 +1,33 @@
-import { validate } from 'cpf-check';
-import { verifyVacancy } from './vacancyService';
+
+import { ifVacancyExists } from './vacancyService';
+import { ifCandidateExists } from './candidateService';
 
 import database from '../database/connectDB';
 
-const createSubscription = async (dataSubscription) => {
 
-    const { idVacancy, cpfCandidate } = dataSubscription;
 
-    if (!idVacancy || idVacancy === 0) {
-        throw ("Insira o nome da vaga.");
-    }
-    if (validate(cpfCandidate) === false) {
-        throw ("Digite um CPF valido!");
-    }
 
-    const match = verifyVacancy(idVacancy);
-    if ( match === true) {
-        throw ("Vaga não registrada, tente novamente.");
-    }
+const createSubscription = async dataSubscription => {
+    const { idVacancy, idCandidate } = dataSubscription;
 
-    const searchByCpfOfCandidate = 'SELECT idCandidate FROM Candidate WHERE cpf = ?';
-    const candidateSelected = await database.get(searchByCpfOfCandidate, [cpfCandidate]);
-
-    if (candidateSelected == null) {
-        throw ("Candidato não registrado, tente novamente.");
-    }
-
-    const searchSubscription = 'SELECT idVacancy, idCandidte FROM Subscription WHERE idVacancy = ? and idCandidate = ?';
-    const subscriptionMatched = await database.get(searchSubscription, [vacancySelected, candidateSelected]);
-
-    if (subscriptionMatched !== null) {
-        throw ("Candidato já cadastrado na vaga!");
-    }
+    await verifySubscription(dataSubscription);
 
     const insertSubscription = 'INSERT INTO Subscription (idVacancy, idCandidate) VALUES (?, ?)';
-    await database.run(insertSubscription, [vacancySelected, candidateSelected]);
+    await database.run(insertSubscription, [idVacancy, idCandidate]);
 
+};
 
+const verifySubscription = async dataSubscription => {
+    const { idVacancy, idCandidate } = dataSubscription;
 
-
+    const candidate = await ifCandidateExists(idCandidate);
+    if (!candidate) {
+        throw ("Candidato não existe, verifique os campos e tente novamente.");
+    }
+    const vacancy = await ifVacancyExists(idVacancy);
+    if (!vacancy) {
+        throw ("Vaga não existe, verifique os campos e tente novamente.");
+    }
 };
 
 module.exports = { createSubscription };

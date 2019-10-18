@@ -7,36 +7,33 @@ const getDate = () => {
 }
 
 
-
 const createVacancy = async dataVacancy => {
-    const { name, skill, description} = dataVacancy;
+    const { name, skill, description } = dataVacancy;
 
     if (!name || !skill || !description) {
         throw ("Valide os campos");
     }
-    
+
     const insertVacancy = 'INSERT INTO Vacancy (name, skill, description, date) VALUES (?,?,?,?)';
     await database.run(insertVacancy, [name, skill, description, getDate()]);
 
 };
 
-const verifyVacancy = async vacancy => {
-    const { id } = vacancy;
+const ifVacancyExists = async vacancy => {
+    const id = vacancy;
 
     if (!id || id === 0) {
-        throw ("Insira uma vaga.");
+        return false
     }
-
     const checkVacancy = 'SELECT idVacancy FROM Vacancy WHERE idVacancy = ?';
     const vacancyChecked = await database.get(checkVacancy, [id]);
 
-    if (vacancyChecked == null) {
-        throw ("Vaga não existe, tente novamente");
+    if (vacancyChecked === undefined) {
+        return false
     }
-  
-
+    return true;
 };
 
-module.exports = { createVacancy, verifyVacancy };
+module.exports = { createVacancy, ifVacancyExists };
 
 

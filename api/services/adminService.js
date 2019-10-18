@@ -9,8 +9,7 @@ const createAdmin = async dataAdmin => {
     await verifyAdmin(dataAdmin);
 
     const insertAdmin = 'INSERT INTO Admin (name, password, email) VALUES (?, ?, ?)';
-    await database.run(insertAdmin, [name, await createHash(password), email]);
-
+    await database.run(insertAdmin, [name, createHash(password), email]);
 
 };
 
@@ -27,11 +26,12 @@ const verifyAdmin = async dataAdmin => {
     }
 
     const selectByEmail = 'SELECT password FROM Admin WHERE email = ?';
-    await database.get(selectByEmail, [email]);
+    const adminMatched = await database.get(selectByEmail, [email]);
 
-    await Promise.reject('Email já cadastrado, tente com outro.').catch(err => {
-        throw (err);
-    });
+    if (adminMatched === false) {
+        throw ("Administrador não existe.");
+    }
+
 
 };
 
@@ -60,11 +60,9 @@ const verifyLogin = async dataAdmin => {
 
 };
 
-const login = async dataAdmin => {
-
+const loginAdmin = async dataAdmin => {
     await verifyLogin(dataAdmin);
-
 };
 
-module.exports = { createAdmin, verifyAdmin, login };
+module.exports = { createAdmin, verifyAdmin, loginAdmin };
 
