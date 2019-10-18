@@ -6,12 +6,11 @@ import { emailValidation } from './validationService';
 const createAdmin = async dataAdmin => {
     const { name, password, email } = dataAdmin;
 
-    const adminChecked = await verifyAdmin(dataAdmin);
+    await verifyAdmin(dataAdmin);
 
-    if (adminChecked) {
-        const insertAdmin = 'INSERT INTO Admin (name, password, email) VALUES (?, ?, ?)';
-        await database.run(insertAdmin, [name, await createHash(password), email]);
-    }
+    const insertAdmin = 'INSERT INTO Admin (name, password, email) VALUES (?, ?, ?)';
+    await database.run(insertAdmin, [name, await createHash(password), email]);
+
 
 };
 
@@ -28,13 +27,11 @@ const verifyAdmin = async dataAdmin => {
     }
 
     const selectByEmail = 'SELECT password FROM Admin WHERE email = ?';
-    const adminSelected = await database.get(selectByEmail, [email]);
+    await database.get(selectByEmail, [email]);
 
-    if (adminSelected !== undefined) {
-        throw ("Email cadastrado, tente novamente");
-    }
-
-    return true;
+    await Promise.reject('Email já cadastrado, tente com outro.').catch(err => {
+        throw (err)
+    });
 
 };
 
@@ -52,16 +49,14 @@ const verifyLogin = async dataAdmin => {
     const searchByEmail = 'SELECT password FROM Admin WHERE email = ?';
     const emailMatched = await database.get(searchByEmail, [email]);
 
-    if (emailMatched === undefined) {
-        throw ("Email não cadastrado, tente novamente.");
-    }
+
 
     const matchPassword = await verifyHash(password, emailMatched.password);
     if (matchPassword == false) {
         throw ("Email ou senha não existem, tente novamente.");
     }
 
-    return true;
+
 
 };
 
