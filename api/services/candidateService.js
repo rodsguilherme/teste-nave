@@ -7,60 +7,57 @@ const createCandidate = async dataCandidate => {
 
     const { name, email, telephone, cpf } = dataCandidate;
 
-    await verifyCandidate(dataCandidate);
+    const candidateChecked = await candidateIsValid(dataCandidate);
+    if (!candidateChecked) {
+        throw ("Valide os campos.");
+    }
     const insertCandidate = 'INSERT INTO Candidate (name, email, telephone, cpf) VALUES (?, ?, ?, ?)';
 
     await database.run(insertCandidate, [name, email, telephone, cpf]);
 
 };
 
-const verifyCandidate = async candidateChecked => {
+const getCandidateByEmail = async email => {
+    const searchByEmail = 'SELECT idCandidate FROM Candidate WHERE email = ?';
+    return await database.get(searchByEmail, [email]);
+};
+
+const getCandidateByCpf = async cpf => {
+    const searchByCpf = 'SELECT idCandidate FROM Candidate WHERE cpf = ?';
+    return await database.get(searchByCpf, [cpf]);
+}
+
+const candidateIsValid = async candidateChecked => {
     const { name, email, telephone, cpf } = candidateChecked;
 
-    if (!name) {
-        throw ("Insira o nome.");
-    }
-    if (!validate(cpf)) {
-        throw ("Insira um CPF valido");
+    if (!name || !validate(cpf) || !emailValidation(email) || !telephoneValidation(telephone)) {
+        return false;
     }
 
-    if (!emailValidation(email)) {
-        throw ("Insira um email valido");
-    }
-
-
-    if (!telephoneValidation(telephone)) {
-        throw ("Insira um telefone valido.");
-    }
-
-    const searchCandidateByCpf = 'SELECT idCandidate FROM Candidate WHERE cpf = ?';
-    const candidateMatchedByCpf = await database.get(searchCandidateByCpf, [cpf]);
-
+    const candidateMatchedByCpf = await getCandidateByCpf(cpf);
     if (candidateMatchedByCpf !== undefined) {
         throw ("CPF já cadastrado");
     }
 
-    const searchCandidateByEmail = 'SELECT idCandidate FROM Candidate WHERE email = ?';
-    await database.get(searchCandidateByEmail, [email]);
+    const emailChecked = await getCandidateByEmail(email);
+    if (emailChecked !== undefined) {
+        throw ("Email já existe.");
+    }
+    return true;
 
-    await Promise.reject('Email já cadastrado').catch(err => {
-        throw (err);
-    });
 };
 
-const ifCandidateExists = async id => {
-    const idCandidate = id;
-
-    if (!idCandidate || idCandidate <= 0) {
+const candidateExists = async id => {
+    if (!id || id <= 0) {
         return false;
     }
 
-    const candidateIsValid = 'SELECT idCandidate FROM Candidate WHERE idCandidate = ?';
-    const candidate = await database.get(candidateIsValid, [idCandidate]);
-    
+    const searchByIdCandidate = 'SELECT idCandidate FROM Candidate WHERE idCandidate = ?';
+    const candidate = await database.get(searchByIdCandidate, [id]);
+
     if (candidate == undefined) {
         return false;
     }
     return true;
 }
-module.exports = { createCandidate, ifCandidateExists };
+module.exports = { createCandidate, candidateExists };
