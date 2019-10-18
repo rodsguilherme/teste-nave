@@ -9,10 +9,9 @@ const createCandidate = async dataCandidate => {
 
     const candidateChecked = await candidateIsValid(dataCandidate);
     if (!candidateChecked) {
-        throw ("Valide os campos.");
+        throw ("Valide os campos e tente novamente.");
     }
     const insertCandidate = 'INSERT INTO Candidate (name, email, telephone, cpf) VALUES (?, ?, ?, ?)';
-
     await database.run(insertCandidate, [name, email, telephone, cpf]);
 
 };
