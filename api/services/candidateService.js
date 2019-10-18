@@ -10,12 +10,11 @@ const createCandidate = async dataCandidate => {
     const matched = await verifyCandidate(dataCandidate);
 
 
-    if (matched == false) {
-        throw ("Usuário já cadastrado");
+    if (matched) {
+        const insertCandidate = 'INSERT INTO Candidate (name, email, telephone, cpf) VALUES (?, ?, ?, ?)';
+        await database.run(insertCandidate, [name, email, telephone, cpf]);
     }
 
-    const insert = 'INSERT INTO Candidate (name, email, telephone, cpf) VALUES (?, ?, ?, ?)';
-    await database.run(insert, [name, email, telephone, cpf]);
 
 };
 
