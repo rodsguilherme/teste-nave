@@ -9,4 +9,5 @@ const createHash = (text) => {
 const verifyHash = (textToCripto, textToCompare) => {
     return bcrypt.compareSync(`${textToCripto}${saltKey}`, textToCompare);
 };
+
 module.exports = { createHash, verifyHash };
