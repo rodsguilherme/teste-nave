@@ -1,8 +1,8 @@
 import express from 'express';
 const router = express.Router();
 
-import { createAdmin, loginAdmin, getAdminId } from '../services/adminService';
-import { tokenGenerator } from '../services/authService';
+import { createAdmin } from '../services/adminService';
+
 
 
 router.post('/', async (request, response) => {
@@ -22,24 +22,5 @@ router.post('/', async (request, response) => {
 
 });
 
-router.post('/login', async (request, response) => {
-    const dataAdmin = {
-        email: request.body.email,
-        password: request.body.password
-    };
-
-
-    const connected = await loginAdmin(dataAdmin);
-
-    if (connected) {
-        const adminId = await getAdminId(dataAdmin.email);
-        const token = tokenGenerator(adminId);
-        response.status(200).send({ token });
-    }
-    else
-        response.status(401).send();
-
-
-});
 
 module.exports = api => api.use('/api/admin', router); 

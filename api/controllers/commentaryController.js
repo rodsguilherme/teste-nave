@@ -10,7 +10,6 @@ router.post('/', verifyJWT, async (request, response) => {
         idSub: request.body.idSub,
         commentary: request.body.commentary
     };
-    console.log(dataCommentary);
     try {
         await createCommentary(dataCommentary);
         response.status(201).send('Comentário postado!');
