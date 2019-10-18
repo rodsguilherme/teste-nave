@@ -1,38 +1,41 @@
-import { verifyHash } from './cryptografyService'
 import { validate } from 'cpf-check';
+import { verifyVacancy } from './vacancyService';
 
 import database from '../database/connectDB';
 
-
 const createSubscription = async (dataSubscription) => {
 
-    const { nameVacancy, cpfCandidate } = dataSubscription;
+    const { idVacancy, cpfCandidate } = dataSubscription;
 
-    if (!nameVacancy) {
-        throw ("Verifique os campos!");
+    if (!idVacancy || idVacancy === 0) {
+        throw ("Insira o nome da vaga.");
     }
     if (validate(cpfCandidate) === false) {
-        throw ("Digite um CPF válido!");
-    }
-    const selectCandidatebyCpf = 'SELECT idCandidate FROM Candidate WHERE cpf = ?';
-    const candidatesSelected = await database.get(selectCandidatebyCpf, [cpfCandidate]);
-    if (candidatesSelected == null) {
-        throw ("Nenhum candidato com esse CPF foi encontrado.");
-    }
-    const match = verifyHash(cpfCandidate, candidatesSelected.cpf);
-    if (match === false) {
-        throw ("Candidato já cadastrado na vaga.");
+        throw ("Digite um CPF valido!");
     }
 
-    const selectSubscription = 'SELECT * FROM Subscription WHERE idVacancy = ? and idCandidate = ?';
-    const subscriptionSelected = await database.get(selectSubscription, [vacancysSelecteds.idVacancy, candidatesSelected.idCandidate]);
-
-    if (subscriptionSelected != null) {
-        throw ("Candidato já cadastrado na vaga.");
+    const match = verifyVacancy(idVacancy);
+    if ( match === true) {
+        throw ("Vaga não registrada, tente novamente.");
     }
-    
-    const insert = 'INSERT INTO Subscription (idVacancy, idCandidate) VALUES (?, ?)';
-    await database.run(insert, [vacancysSelecteds.idVacancy, candidatesSelected.idCandidate]);
+
+    const searchByCpfOfCandidate = 'SELECT idCandidate FROM Candidate WHERE cpf = ?';
+    const candidateSelected = await database.get(searchByCpfOfCandidate, [cpfCandidate]);
+
+    if (candidateSelected == null) {
+        throw ("Candidato não registrado, tente novamente.");
+    }
+
+    const searchSubscription = 'SELECT idVacancy, idCandidte FROM Subscription WHERE idVacancy = ? and idCandidate = ?';
+    const subscriptionMatched = await database.get(searchSubscription, [vacancySelected, candidateSelected]);
+
+    if (subscriptionMatched !== null) {
+        throw ("Candidato já cadastrado na vaga!");
+    }
+
+    const insertSubscription = 'INSERT INTO Subscription (idVacancy, idCandidate) VALUES (?, ?)';
+    await database.run(insertSubscription, [vacancySelected, candidateSelected]);
+
 
 
 

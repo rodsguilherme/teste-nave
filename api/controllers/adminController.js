@@ -1,17 +1,14 @@
 import express from 'express';
 const router = express.Router();
 
-import { createAdmin } from '../services/adminService';
-import { verifyAdmin } from '../services/adminService';
-import {tokenGenerator} from '../services/authService';
-
+import { createAdmin, login } from '../services/adminService';
 
 
 router.post('/', async (request, response) => {
     const dataAdmin = {
         name: request.body.name,
         password: request.body.password,
-        token: tokenGenerator(id)
+        email: request.body.email
     };
 
     try {
@@ -26,17 +23,19 @@ router.post('/', async (request, response) => {
 
 router.post('/login', async (request, response) => {
     const dataAdmin = {
-        name: request.body.name,
+        email: request.body.email,
         password: request.body.password
     };
 
+   
     try {
-        await verifyAdmin(dataAdmin);
-        response.status(200).send('Conectado com sucesso', );
+        await login(dataAdmin);
+        response.status(200).send('Conectado com sucesso');
 
     } catch (error) {
-        response.status(400).send('Usuário ou senha incorretas, tente novamente.');
-}
+        console.log(error)
+        response.status(400).send({ Error: error });
+    }
 
 });
 
