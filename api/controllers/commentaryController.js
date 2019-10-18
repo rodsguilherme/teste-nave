@@ -15,7 +15,6 @@ router.post('/', verifyJWT, async (request, response) => {
         await createCommentary(dataCommentary);
         response.status(201).send('Comentário postado!');
     } catch (error) {
-        console.log(error)
         response.status(400).send({ error: 'Não foi possivel criar o comentário' });
     }
 });
