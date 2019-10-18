@@ -47,16 +47,16 @@ const verifyLogin = async dataAdmin => {
     }
 
     const searchByEmail = 'SELECT password FROM Admin WHERE email = ?';
-    const emailMatched = await database.get(searchByEmail, [email]);
+    const adminMatched = await database.get(searchByEmail, [email]);
 
+    if (adminMatched === undefined) {
+        throw ("Email não cadastrado.");
+    }
 
-
-    const matchPassword = await verifyHash(password, emailMatched.password);
+    const matchPassword = await verifyHash(password, adminMatched.password);
     if (matchPassword == false) {
         throw ("Email ou senha não existem, tente novamente.");
     }
-
-
 
 };
 
