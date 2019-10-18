@@ -13,13 +13,13 @@ const createVacancy = async dataVacancy => {
     if (!name || !skill || !description) {
         throw ("Valide os campos");
     }
-
+    
     const insertVacancy = 'INSERT INTO Vacancy (name, skill, description, date) VALUES (?,?,?,?)';
     await database.run(insertVacancy, [name, skill, description, getDate()]);
 
 };
 
-const ifVacancyExists = async vacancy => {
+const vacancyExists = async vacancy => {
     const id = vacancy;
 
     if (!id || id === 0) {
@@ -34,6 +34,6 @@ const ifVacancyExists = async vacancy => {
     return true;
 };
 
-module.exports = { createVacancy, ifVacancyExists };
+module.exports = { createVacancy, vacancyExists };
 
 

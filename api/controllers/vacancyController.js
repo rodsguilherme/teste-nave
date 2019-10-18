@@ -2,8 +2,9 @@ import express from 'express';
 const router = express.Router();
 
 import { createVacancy } from '../services/vacancyService';
+import { verifyJWT } from '../services/authService';
 
-router.post('/', async (request, response) => {
+router.post('/', verifyJWT, async (request, response) => {
     const dataVacancy = {
         name: request.body.name,
         skill: request.body.skill,
@@ -12,9 +13,8 @@ router.post('/', async (request, response) => {
     try {
         await createVacancy(dataVacancy);
         response.status(201).send('Vaga cadastrada com sucesso!');
-
     } catch (error) {
-        response.status(400).send({ Error: error });
+        response.status(400).send({ error: 'Erro ao cadastrar a vaga.' });
     }
 });
 
