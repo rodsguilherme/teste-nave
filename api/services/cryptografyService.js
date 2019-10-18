@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-const saltRounds = '10'
+const saltRounds = 10
 const saltKey = '!VWi@g:a:b"<^|a';
 
 const createHash = async (text) => {

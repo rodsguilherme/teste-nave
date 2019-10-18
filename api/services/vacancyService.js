@@ -33,7 +33,7 @@ const verifyVacancy = async vacancy => {
     if (vacancyChecked == null) {
         throw ("Vaga não existe, tente novamente");
     }
-    return true;
+  
 
 };
 

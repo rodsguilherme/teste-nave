@@ -30,7 +30,7 @@ const verifyAdmin = async dataAdmin => {
     await database.get(selectByEmail, [email]);
 
     await Promise.reject('Email já cadastrado, tente com outro.').catch(err => {
-        throw (err)
+        throw (err);
     });
 
 };

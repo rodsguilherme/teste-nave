@@ -30,10 +30,10 @@ router.post('/login', async (request, response) => {
    
     try {
         await login(dataAdmin);
+        
         response.status(200).send('Conectado com sucesso');
 
     } catch (error) {
-        console.log(error)
         response.status(400).send({ Error: error });
     }
 
