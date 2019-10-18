@@ -23,4 +23,4 @@ router.post('/login', async (request, response) => {
         response.status(401).send();
 });
 
-module.exports = (api) => api.use('/api/login', router); 
+module.exports = api => api.use('/api/login', router); 

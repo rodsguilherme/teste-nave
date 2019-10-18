@@ -42,4 +42,4 @@ router.post('/login', async (request, response) => {
 
 });
 
-module.exports = (api) => api.use('/api/admin', router); 
+module.exports = api => api.use('/api/admin', router); 

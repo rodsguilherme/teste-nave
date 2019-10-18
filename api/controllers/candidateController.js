@@ -21,4 +21,4 @@ router.post('/', verifyJWT, async (request, response) => {
 });
 
 
-module.exports = (api) => api.use('/api/admin/candidato', router)
+module.exports = api => api.use('/api/admin/candidato', router)

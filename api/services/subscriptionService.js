@@ -10,9 +10,9 @@ const createSubscription = async (dataSubscription) => {
 
     const subscriptionChecked = await subscriptionIsValid(dataSubscription);
     if (!subscriptionChecked) {
-        throw ("Valide os campos")
+        throw ("Valide os campos e tente novamente.");
     }
-   
+
     const insertSubscription = 'INSERT INTO Subscription (idAdmin, idVacancy, idCandidate) VALUES (?, ?, ?)';
     await database.run(insertSubscription, [idAdmin, idVacancy, idCandidate]);
 
@@ -49,5 +49,6 @@ const subscriptionExists = async subscription => {
     }
     return true;
 };
+
 
 module.exports = { createSubscription };

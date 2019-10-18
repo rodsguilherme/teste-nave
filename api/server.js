@@ -17,7 +17,8 @@ require('./controllers/subscriptionController')(api);
 require('./controllers/candidateController')(api);
 require('./controllers/vacancyController')(api);
 require('./controllers/adminController')(api);
-
+require('./controllers/commentaryController') (api);
+require('./controllers/loginController')(api);
 
 const port = 3000;
 api.listen(port, () => {

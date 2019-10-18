@@ -20,4 +20,4 @@ router.post('/', verifyJWT, async (request, response) => {
     }
 });
 
-module.exports = (api) => api.use('/api/admin/subs', router);
+module.exports = api => api.use('/api/admin/subs', router);

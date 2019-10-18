@@ -18,4 +18,4 @@ router.post('/', verifyJWT, async (request, response) => {
     }
 });
 
-module.exports = (api) => api.use('/api/admin/vagas', router)
+module.exports = api => api.use('/api/admin/vagas', router)
