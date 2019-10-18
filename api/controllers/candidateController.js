@@ -2,8 +2,9 @@ import express from 'express';
 const router = express.Router();
 
 import { createCandidate } from '../services/candidateService';
+import { verifyJWT } from '../services/authService';
 
-router.post('/', async (request, response) => {
+router.post('/', verifyJWT ,async (request, response) => {
     const dataCandidate = {
         name: request.body.name,
         email: request.body.email,

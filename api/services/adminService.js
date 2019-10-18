@@ -6,63 +6,74 @@ import { emailValidation } from './validationService';
 const createAdmin = async dataAdmin => {
     const { name, password, email } = dataAdmin;
 
-    await verifyAdmin(dataAdmin);
+    const admin = await adminExists(dataAdmin);
+    if (!admin) {
+        throw ("Administrador registrado.");
+    }
 
-    const insertAdmin = 'INSERT INTO Admin (name, password, email) VALUES (?, ?, ?)';
+    const insertAdmin = 'INSERT INTO Admin ( name, password, email) VALUES (?, ?, ?)';
     await database.run(insertAdmin, [name, createHash(password), email]);
 
 };
 
-const verifyAdmin = async dataAdmin => {
+const adminExists = async dataAdmin => {
     const { name, password, email } = dataAdmin;
 
     if (!password || !name) {
-        throw ("Preencha os dados corretamente!");
+        return false;
     }
 
     const emailChecked = emailValidation(email);
     if (emailChecked === false) {
-        throw ("Insira um email valido.");
+        return false;
     }
 
     const selectByEmail = 'SELECT password FROM Admin WHERE email = ?';
-    const adminMatched = await database.get(selectByEmail, [email]);
+    const emailMatched = await database.get(selectByEmail, [email]);
 
-    if (adminMatched === false) {
-        throw ("Administrador não existe.");
+    if (emailMatched === false) {
+        return false;
     }
-
-
+    return true;
 };
 
 const verifyLogin = async dataAdmin => {
     const { email, password } = dataAdmin;
     if (!password) {
-        throw ("Preencha todos os campos.");
+        return false;
     }
 
     const emailChecked = emailValidation(email);
     if (emailChecked === false) {
-        throw ("Email invalido.");
+        return false;
     }
 
-    const searchByEmail = 'SELECT password FROM Admin WHERE email = ?';
+    const searchByEmail = 'SELECT * FROM Admin WHERE email = ?';
     const adminMatched = await database.get(searchByEmail, [email]);
 
     if (adminMatched === undefined) {
-        throw ("Email não cadastrado.");
+        return false
     }
 
     const matchPassword = await verifyHash(password, adminMatched.password);
     if (matchPassword == false) {
-        throw ("Email ou senha não existem, tente novamente.");
+        return false
     }
+    return true;
 
 };
+
+const getAdminId = async email => {
+
+    const searchByEmail = 'SELECT idAdmin FROM Admin WHERE email = ?';
+    const emailMatched = await database.get(searchByEmail, [email]);
+
+    return emailMatched
+}
 
 const loginAdmin = async dataAdmin => {
-    await verifyLogin(dataAdmin);
+    return await verifyLogin(dataAdmin);
 };
 
-module.exports = { createAdmin, verifyAdmin, loginAdmin };
+module.exports = { createAdmin, loginAdmin, getAdminId };
 

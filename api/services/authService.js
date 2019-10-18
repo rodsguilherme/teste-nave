@@ -1,11 +1,26 @@
 import jwt from 'jsonwebtoken';
-import { verifyAdmin } from './adminService';
 
 const privateKey = 'supersecreatepass';
 
-const tokenGenerator = async() => {
-    verifyAdmin(name, password, id)
-  return  jwt.sign({id: verifyAdmin.id}, privateKey);
+const tokenGenerator = (userId) => {
+  return  jwt.sign({ id: userId }, privateKey);
 }
 
-module.exports = { tokenGenerator }
+const  verifyJWT = (req, res, next) =>{
+  var token = req.headers['x-access-token'] || req.headers['authorization'];
+  console.log(token)  
+  if(token.startsWith('Bearer ')) {
+    token = token.slice(7,token.length)
+  }
+  if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
+  
+  jwt.verify(token, privateKey, function(err, decoded) {
+    if (err) return res.status(401).send({ auth: false, message: 'Failed to authenticate token.' });
+    
+    // se tudo estiver ok, salva no request para uso posterior
+    req.userId = decoded.id;
+    next();
+  });
+}
+
+module.exports = { tokenGenerator, verifyJWT}

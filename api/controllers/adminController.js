@@ -1,7 +1,8 @@
 import express from 'express';
 const router = express.Router();
 
-import { createAdmin, loginAdmin } from '../services/adminService';
+import { createAdmin, loginAdmin, getAdminId } from '../services/adminService';
+import { tokenGenerator } from '../services/authService';
 
 
 router.post('/', async (request, response) => {
@@ -16,7 +17,7 @@ router.post('/', async (request, response) => {
         response.status(201).send('Administrador criado com sucesso!');
 
     } catch (error) {
-        response.status(400).send({ Error: error });
+        response.status(400).send({ Error: 'Não foi possivel cadastrar.' });
     }
 
 });
@@ -27,15 +28,17 @@ router.post('/login', async (request, response) => {
         password: request.body.password
     };
 
-   
-    try {
-        await loginAdmin(dataAdmin);
-        
-        response.status(200).send('Conectado com sucesso');
 
-    } catch (error) {
-        response.status(400).send({ Error: error });
+    const connected = await loginAdmin(dataAdmin);
+
+    if (connected) {
+        const adminId = await getAdminId(dataAdmin.email);
+        const token = tokenGenerator(adminId);
+        response.status(200).send({ token });
     }
+    else
+        response.status(401).send();
+
 
 });
 
