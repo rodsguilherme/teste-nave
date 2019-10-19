@@ -12,9 +12,9 @@ router.post('/', verifyJWT, async (request, response) => {
     };
     try {
         await createCommentary(dataCommentary);
-        response.status(201).send('Comentário postado!');
+        response.status(201).json('Comentário postado!');
     } catch (error) {
-        response.status(400).send({ error: 'Não foi possivel criar o comentário' });
+        response.status(400).json({ error: 'Não foi possivel criar o comentário' });
     }
 });
 
@@ -24,9 +24,9 @@ router.get('/:id', verifyJWT, async (request, response) => {
     const commentarys = await getCommentaryByIdSubs(idSubs);
 
     if (commentarys)
-        response.status(200).send(commentarys);
+        response.status(200).json(commentarys);
     else
-        response.status(404).send({ error: 'Inscrição sem comentarios' });
+        response.status(404).json({ error: 'Inscrição sem comentarios' });
 });
 
 module.exports = (api) => api.use('/api/admin/comentario', router)

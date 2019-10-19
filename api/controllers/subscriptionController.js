@@ -14,9 +14,9 @@ router.post('/', verifyJWT, async (request, response) => {
 
     try {
         await createSubscription(dataSubscription);
-        response.status(201).send('Inscrição feita com sucesso!');
+        response.status(201).json('Inscrição feita com sucesso!');
     } catch (error) {
-        response.status(400).send({ Error: 'Erro ao efetuar a inscrição.' });
+        response.status(400).json({ Error: 'Erro ao efetuar a inscrição.' });
     }
 });
 
@@ -26,9 +26,9 @@ router.get('/:id', verifyJWT, async (request, response) => {
     const subsChecked = await getSubscriptionById(idSubs);
 
     if (subsChecked)
-        response.status(200).send(subsChecked);
+        response.status(200).json(subsChecked);
     else
-        response.status(404).send({ error: 'Inscrição não existe' });
+        response.status(404).json({ error: 'Inscrição não existe' });
 });
 
 module.exports = api => api.use('/api/admin/subs', router);

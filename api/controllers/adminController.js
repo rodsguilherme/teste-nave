@@ -14,10 +14,10 @@ router.post('/', async (request, response) => {
 
     try {
         await createAdmin(dataAdmin);
-        response.status(201).send('Administrador criado com sucesso!');
+        response.status(201).json('Administrador criado com sucesso!');
 
     } catch (error) {
-        response.status(400).send({ Error: 'Não foi possivel cadastrar.' });
+        response.status(400).json({ Error: 'Não foi possivel cadastrar.' });
     }
 
 });
@@ -28,18 +28,18 @@ router.get('/:id', verifyJWT, async (request, response) => {
 
     const adminMatched = await getAdminById(idAdmin);
     if (adminMatched !== undefined)
-        response.status(200).send(adminMatched);
+        response.status(200).json(adminMatched);
     else
-        response.status(404).send({ error: 'Administrador não cadastrado' });
+        response.status(404).json({ error: 'Administrador não cadastrado' });
 });
 
 router.get('/', verifyJWT, async (request, response) => {
     const admins = await getAllAdmins();
 
     if (admins.length !== 0)
-        response.status(200).send({ admins });
+        response.status(200).json({ admins });
     else
-        response.status(400).send({ error: 'Não foi possivel retornar adminstradores.' });
+        response.status(400).json({ error: 'Não foi possivel retornar adminstradores.' });
 });
 
 

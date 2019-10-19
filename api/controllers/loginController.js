@@ -17,10 +17,10 @@ router.post('/login', async (request, response) => {
     if (connected) {
         const adminId = await getAdminIdByEmail(dataAdmin.email);
         const token = tokenGenerator(adminId);
-        response.status(200).send({ token });
+        response.status(200).json({ token });
     }
     else{
-        response.status(401).send({ err: 'Erro ao conectar!' });
+        response.status(401).json({ err: 'Erro ao conectar!' });
     }
     });
 

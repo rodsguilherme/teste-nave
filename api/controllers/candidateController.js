@@ -14,9 +14,9 @@ router.post('/', verifyJWT, async (request, response) => {
 
     try {
         await createCandidate(dataCandidate);
-        response.status(201).send('Candidato cadastrado com sucesso!');
+        response.status(201).json('Candidato cadastrado com sucesso!');
     } catch (error) {
-        response.status(400).send({ Error: 'Erro ao cadastrar.' });
+        response.status(400).json({ Error: 'Erro ao cadastrar.' });
     }
 });
 
@@ -27,9 +27,9 @@ router.get('/:id', verifyJWT, async (request, response) => {
     const idMatched = await getCandidateById(idCandidate);
 
     if (idMatched)
-        response.status(200).send(idMatched)
+        response.status(200).json(idMatched)
     else
-        response.status(404).send({ error: 'Candidato não existe.' });
+        response.status(404).json({ error: 'Candidato não existe.' });
 });
 
 
@@ -37,9 +37,9 @@ router.get('/', verifyJWT, async (request, response) => {
     const candidates = await getAllCandidates();
 
     if (candidates.length !== 0)
-        response.status(200).send({ candidates });
+        response.status(200).json({ candidates });
     else
-        response.status(400).send({ error: 'Não foi possivel retornar adminstradores.' });
+        response.status(400).json({ error: 'Não foi possivel retornar adminstradores.' });
 });
 
 
