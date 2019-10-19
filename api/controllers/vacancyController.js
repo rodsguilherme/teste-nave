@@ -30,7 +30,7 @@ router.get('/:id', verifyJWT, async (request, response) => {
 });
 
 router.get('/', verifyJWT, async (request, response) => {
-    const vacancys = getAllVacancys();
+    const vacancys = await getAllVacancys();
 
     if (vacancys.length !== 0)
         response.status(200).json({ vacancys });
