@@ -1,6 +1,6 @@
 
 import { vacancyExists } from './vacancyService';
-import { candidateExists } from './candidateService';
+import { candidateExistsById } from './candidateService';
 
 
 import database from '../database/connectDB';
@@ -9,31 +9,33 @@ const createSubscription = async (dataSubscription) => {
     const { idVacancy, idCandidate, idAdmin } = dataSubscription;
 
     const subscriptionChecked = await subscriptionIsValid(dataSubscription);
-    if (!subscriptionChecked) {
-        throw ("Valide os campos e tente novamente.");
-    }
 
+    if (!subscriptionChecked) {
+        throw ("Dados já cadastrados");
+    }
     const insertSubscription = 'INSERT INTO Subscription (idAdmin, idVacancy, idCandidate) VALUES (?, ?, ?)';
     await database.run(insertSubscription, [idAdmin, idVacancy, idCandidate]);
-
 };
+
+
 
 const subscriptionIsValid = async dataSubscription => {
     const { idVacancy, idCandidate } = dataSubscription;
 
 
-    const candidate = await candidateExists(idCandidate);
+    const candidate = await candidateExistsById(idCandidate);
+    
     if (!candidate) {
         return false
     }
     const vacancy = await vacancyExists(idVacancy);
+   
     if (!vacancy) {
         return false;
     }
 
     const exists = await subscriptionExists(dataSubscription);
-
-    if (!exists) {
+    if (exists) {
         return false;
     }
     return true
@@ -42,17 +44,18 @@ const subscriptionIsValid = async dataSubscription => {
 const subscriptionExists = async subscription => {
     const { idVacancy, idCandidate } = subscription;
 
-    const subscriptionExists = 'SELECT * FROM Subscription WHERE idVacancy = ? and  idCandidate = ?';
+    const subscriptionExists = 'SELECT idVacancy, idCandidate FROM Subscription WHERE idVacancy = ? and  idCandidate = ?';
     const subscriptionMatched = await database.get(subscriptionExists, [idVacancy, idCandidate]);
-    if (subscriptionMatched !== undefined) {
+    
+    if (subscriptionMatched === undefined) {
         return false;
     }
     return true;
 };
 
-const subscriptionExistsById = async id => {
-    const idIsValid = 'SELECT idSubs FROM Subscription WHERE idSubs = ?';
-    const subs = await database.get(idIsValid, [id]);
+const subscriptionExistsById = async ids => {
+    const idIsValid = 'SELECT idAdmin, idCandidate, idVacancy FROM Subscription WHERE idAdmin = ? AND idCandidate = ? AND idVacancy = ?';
+    const subs = await database.get(idIsValid, [ids]);
 
     if (subs === undefined) {
         return false
@@ -61,14 +64,21 @@ const subscriptionExistsById = async id => {
 };
 
 const getSubscriptionById = async id => {
-    const subChecked = await subscriptionExistsById(id);
+    
 
-    if (subChecked) {
-        const searchById = 'SELECT * FROM Subscription WHERE idSubs = ?';
+    
+        const searchById = 'SELECT * FROM Subscription WHERE idCandidate = ?';
         const subs = await database.get(searchById, [id]);
 
         return subs;
-    }
+    
 }
 
-module.exports = { createSubscription, getSubscriptionById };
+const getAllSubscription = async () => {
+    const searchSubs = 'SELECT * FROM Subscription';
+    const subs = await database.all(searchSubs);
+     
+    return subs;
+};
+
+module.exports = { createSubscription, getSubscriptionById, getAllSubscription };

@@ -2,6 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 import { createVacancy, getVacancyById, getAllVacancys } from '../services/vacancyService';
+import { getSubscriptionById } from '../services/subscriptionService';
 import { verifyJWT } from '../services/authService';
 
 router.post('/', verifyJWT, async (request, response) => {
@@ -27,6 +28,18 @@ router.get('/:id', verifyJWT, async (request, response) => {
         response.status(200).json(idChecked);
     else
         response.status(404).json({ error: 'Vaga não cadastrada.' });
+});
+
+
+router.get('/subs/:id', verifyJWT, async (request, response) => {
+    const idCandidate = request.params.id;
+
+    const subsByCandidate = await getSubscriptionById(idCandidate);
+
+    if (subsByCandidate)
+        response.status(200).json({ subsByCandidate });
+    else
+        response.status(404).json({ error: 'Inscrição não existe' });
 });
 
 router.get('/', verifyJWT, async (request, response) => {
