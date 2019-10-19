@@ -46,7 +46,7 @@ const candidateIsValid = async candidateChecked => {
 
 };
 
-const candidateExists = async id => {
+const candidateExistsById = async id => {
     if (!id || id <= 0) {
         return false;
     }
@@ -58,5 +58,16 @@ const candidateExists = async id => {
         return false;
     }
     return true;
-}
-module.exports = { createCandidate, candidateExists };
+};
+
+const getCandidateById = async id => {
+   const idChecked = candidateExistsById(id);
+
+   if (idChecked) {
+        const searchById = 'SELECT idCandidate, name, cpf, telephone FROM Candidate WHERE idCandidate = ?';
+        const candidateValid = await database.get(searchById, [id]);
+        return candidateValid
+   }
+};
+
+module.exports = { createCandidate, candidateExistsById, getCandidateById };

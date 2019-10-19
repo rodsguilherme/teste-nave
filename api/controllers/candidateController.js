@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import { createCandidate } from '../services/candidateService';
+import { createCandidate, getCandidateById } from '../services/candidateService';
 import { verifyJWT } from '../services/authService';
 
 router.post('/', verifyJWT, async (request, response) => {
@@ -20,5 +20,16 @@ router.post('/', verifyJWT, async (request, response) => {
     }
 });
 
+
+router.get('/:id', verifyJWT, async (request, response) => {
+    const idCandidate = request.params.id;
+
+    const idMatched = await getCandidateById(idCandidate);
+
+    if (idMatched)
+        response.status(200).send(idMatched)
+    else
+        response.status(404).send({ error: 'Candidato não existe.' });
+});
 
 module.exports = api => api.use('/api/admin/candidato', router)
