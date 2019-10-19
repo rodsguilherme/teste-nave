@@ -32,7 +32,7 @@ const getAdminById = async id => {
     if (idAdmin) {
         const searchById = 'SELECT idAdmin, name, email FROM Admin WHERE idAdmin = ?';
         const search = await database.get(searchById, [id]);
-    
+
         return search;
     }
 
@@ -86,7 +86,6 @@ const verifyLogin = async dataAdmin => {
 };
 
 const getAdminIdByEmail = async email => {
-
     const searchByEmail = 'SELECT idAdmin FROM Admin WHERE email = ?';
     const emailMatched = await database.get(searchByEmail, [email]);
 
@@ -97,5 +96,12 @@ const loginAdmin = async dataAdmin => {
     return await verifyLogin(dataAdmin);
 };
 
-module.exports = { createAdmin, loginAdmin, getAdminIdByEmail, getAdminById };
+const getAllAdmins = async () => {
+    const searchAdmins = 'SELECT idAdmin, name, email FROM Admin ORDER BY idAdmin';
+    const admins = await database.all(searchAdmins);
+
+    return admins;
+};
+
+module.exports = { createAdmin, loginAdmin, getAdminIdByEmail, getAdminById, getAllAdmins };
 

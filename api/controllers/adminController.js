@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import { createAdmin, getAdminById } from '../services/adminService';
+import { createAdmin, getAdminById, getAllAdmins } from '../services/adminService';
 import { verifyJWT } from '../services/authService';
 
 
@@ -24,7 +24,6 @@ router.post('/', async (request, response) => {
 
 
 router.get('/:id', verifyJWT, async (request, response) => {
-
     const idAdmin = request.params.id;
 
     const adminMatched = await getAdminById(idAdmin);
@@ -32,8 +31,16 @@ router.get('/:id', verifyJWT, async (request, response) => {
         response.status(200).send(adminMatched);
     else
         response.status(404).send({ error: 'Administrador não cadastrado' });
-
-
 });
+
+router.get('/', verifyJWT, async (request, response) => {
+    const admins = await getAllAdmins();
+    console.log(admins)
+    if (admins.length !== 0)
+        response.status(200).send({ admins });
+    else
+        response.status(404).send({ error: 'Não foi possivel retornar adminstradores.' });
+});
+
 
 module.exports = api => api.use('/api/admin', router); 
