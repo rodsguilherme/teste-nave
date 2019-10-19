@@ -50,5 +50,25 @@ const subscriptionExists = async subscription => {
     return true;
 };
 
+const subscriptionExistsById = async id => {
+    const idIsValid = 'SELECT idSubs FROM Subscription WHERE idSubs = ?';
+    const subs = await database.get(idIsValid, [id]);
 
-module.exports = { createSubscription };
+    if (subs === undefined) {
+        return false
+    }
+    return true;
+};
+
+const getSubscriptionById = async id => {
+    const subChecked = await subscriptionExistsById(id);
+
+    if (subChecked) {
+        const searchById = 'SELECT * FROM Subscription WHERE idSubs = ?';
+        const subs = await database.get(searchById, [id]);
+
+        return subs;
+    }
+}
+
+module.exports = { createSubscription, getSubscriptionById };
