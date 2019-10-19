@@ -70,4 +70,14 @@ const getCandidateById = async id => {
    }
 };
 
-module.exports = { createCandidate, candidateExistsById, getCandidateById };
+
+
+const getAllCandidates = async () => {
+    const searchCandidates = 'SELECT * FROM Candidate ORDER BY idCandidate';
+    const candidates = await database.all(searchCandidates);
+
+    return candidates;
+};
+
+
+module.exports = { createCandidate, candidateExistsById, getCandidateById,  getAllCandidates  };

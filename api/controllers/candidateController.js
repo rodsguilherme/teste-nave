@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import { createCandidate, getCandidateById } from '../services/candidateService';
+import { createCandidate, getCandidateById, getAllCandidates } from '../services/candidateService';
 import { verifyJWT } from '../services/authService';
 
 router.post('/', verifyJWT, async (request, response) => {
@@ -31,5 +31,16 @@ router.get('/:id', verifyJWT, async (request, response) => {
     else
         response.status(404).send({ error: 'Candidato não existe.' });
 });
+
+
+router.get('/', verifyJWT, async (request, response) => {
+    const candidates = await getAllCandidates();
+
+    if (candidates.length !== 0)
+        response.status(200).send({ candidates });
+    else
+        response.status(400).send({ error: 'Não foi possivel retornar adminstradores.' });
+});
+
 
 module.exports = api => api.use('/api/admin/candidato', router)

@@ -35,7 +35,7 @@ router.get('/:id', verifyJWT, async (request, response) => {
 
 router.get('/', verifyJWT, async (request, response) => {
     const admins = await getAllAdmins();
-    console.log(admins)
+
     if (admins.length !== 0)
         response.status(200).send({ admins });
     else
