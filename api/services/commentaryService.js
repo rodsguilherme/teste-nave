@@ -12,10 +12,9 @@ const createCommentary = async dataCommentary => {
 };
 
 const commentaryIsValid = commentary => {
-    if (!commentary) {
+    if (!commentary || typeof(commentary) !== "string") {
         return false;
     }
-    return true;
 };
 
 module.exports = { createCommentary };
