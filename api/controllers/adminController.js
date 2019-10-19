@@ -39,7 +39,7 @@ router.get('/', verifyJWT, async (request, response) => {
     if (admins.length !== 0)
         response.status(200).send({ admins });
     else
-        response.status(404).send({ error: 'Não foi possivel retornar adminstradores.' });
+        response.status(400).send({ error: 'Não foi possivel retornar adminstradores.' });
 });
 
 
