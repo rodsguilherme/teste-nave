@@ -11,6 +11,10 @@ const verifyJWT = (request, response, next) => {
   if (token.startsWith('Bearer ')) {
     token = token.slice(7, token.length)
   }
+  else {
+    return response.status(404).send({ auth: false, message: 'Nenhum token foi encontrado' });
+  }
+
   if (!token) return response.status(401).send({ auth: false, message: 'Nenhum token foi usado.' });
 
   jwt.verify(token, privateKey, function (err, decoded) {

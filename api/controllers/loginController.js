@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 import { tokenGenerator } from '../services/authService';
-import { getAdminId } from '../services/adminService';
+import {  getAdminIdByEmail} from '../services/adminService';
 import { loginAdmin } from '../services/adminService';
 
 router.post('/login', async (request, response) => {
@@ -11,16 +11,17 @@ router.post('/login', async (request, response) => {
         password: request.body.password
     };
 
-
+   
     const connected = await loginAdmin(dataAdmin);
-
+   
     if (connected) {
-        const adminId = await getAdminId(dataAdmin.email);
+        const adminId = await getAdminIdByEmail(dataAdmin.email);
         const token = tokenGenerator(adminId);
         response.status(200).send({ token });
     }
-    else
-        response.status(401).send();
-});
+    else{
+        response.status(401).send({ err: 'Erro ao conectar!' });
+    }
+    });
 
 module.exports = api => api.use('/api/', router); 
