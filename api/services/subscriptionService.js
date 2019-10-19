@@ -64,10 +64,7 @@ const subscriptionExistsById = async ids => {
 };
 
 const getSubscriptionById = async id => {
-    
-
-    
-        const searchById = 'SELECT * FROM Subscription WHERE idCandidate = ?';
+        const searchById = 'SELECT com.idSubs, idCandidate, idVacancy, com.commentary FROM Subscription sub JOIN Commentary com ON sub.idSubs = com.idSubs WHERE idCandidate = ?';
         const subs = await database.get(searchById, [id]);
 
         return subs;
@@ -75,10 +72,10 @@ const getSubscriptionById = async id => {
 }
 
 const getAllSubscription = async () => {
-    const searchSubs = 'SELECT * FROM Subscription';
+    const searchSubs = 'SELECT com.idSubs, idCandidate, idVacancy, com.commentary FROM Subscription sub JOIN Commentary com ON sub.idSubs = com.idSubs';
     const subs = await database.all(searchSubs);
      
     return subs;
 };
 
-module.exports = { createSubscription, getSubscriptionById, getAllSubscription };
+module.exports = { createSubscription, getSubscriptionById, getAllSubscription, subscriptionExistsById };

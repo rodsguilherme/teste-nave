@@ -1,46 +1,29 @@
 import database from '../database/connectDB';
+import { subscriptionExistsById } from '../services/subscriptionService'
 
 const createCommentary = async dataCommentary => {
-    const { idAdmin, idSub, commentary } = dataCommentary;
+    const { idAdmin, idSubs, commentary } = dataCommentary;
 
-    if (!commentaryIsValid(commentary)) {
+    const commentaryValid = commentaryIsValid(commentary);
+    if (!commentaryValid) {
         throw ("Valide  os campos e tente novamente.");
     }
 
     const insertComment = 'INSERT INTO Commentary (idAdmin, idSubs, commentary) VALUES (?, ?, ?)';
-    await database.get(insertComment, [idAdmin, idSub, commentary]);
+    await database.run(insertComment, [idAdmin, idSubs, commentary]);
+
 };
 
-const commentaryIsValid = commentary => {
+const commentaryIsValid = async dataComment => {
+    const { commentary, idSubs } = dataComment;
     if (!commentary || typeof (commentary) !== "string") {
         return false;
     }
-    return true;
+    const idSubsChecked = await subscriptionExistsById(idSubs);
+    if (!idSubsChecked) {
+        return false
+    }
+        return true;
 };
 
-const commentaryExistsByIdSubs = async idSubs => {
-
-    if (!idSubs || idSubs <= 0) {
-        return false;
-    }
-    const searchById = 'SELECT idSubs FROM Commentary WHERE idSubs = ?';
-    const subs = await database.all(searchById, [idSubs]);
-
-    if (subs.length == 0) {
-        return false;
-    }
-    return true;
-};
-
-const getCommentaryByIdSubs = async idSubs => {
-    const commentaryChecked = await commentaryExistsByIdSubs(idSubs);
-
-    if (commentaryChecked) {
-        const searchByIdSubs = 'SELECT commentary FROM Commentary WHERE idSubs = ?';
-        const idSubsChecked = await database.all(searchByIdSubs, [idSubs]);
-
-        return idSubsChecked;
-    }
-};
-
-module.exports = { createCommentary, getCommentaryByIdSubs };
+module.exports = { createCommentary };
