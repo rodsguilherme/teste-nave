@@ -16,6 +16,28 @@ const createAdmin = async dataAdmin => {
 
 };
 
+const idAdminIsValid = async id => {
+    const idAdmin = 'SELECT idAdmin FROM Admin where idAdmin = ?';
+    const idChecked = await database.get(idAdmin, [id]);
+
+    if (idChecked === undefined) {
+        return false;
+    }
+    return true;
+}
+
+const getAdminById = async id => {
+
+    const idAdmin = await idAdminIsValid(id);
+    if (idAdmin) {
+        const searchById = 'SELECT idAdmin, name, email FROM Admin WHERE idAdmin = ?';
+        const search = await database.get(searchById, [id]);
+    
+        return search;
+    }
+
+}
+
 const adminExists = async dataAdmin => {
     const { name, password, email } = dataAdmin;
 
@@ -63,7 +85,7 @@ const verifyLogin = async dataAdmin => {
 
 };
 
-const getAdminId = async email => {
+const getAdminIdByEmail = async email => {
 
     const searchByEmail = 'SELECT idAdmin FROM Admin WHERE email = ?';
     const emailMatched = await database.get(searchByEmail, [email]);
@@ -75,5 +97,5 @@ const loginAdmin = async dataAdmin => {
     return await verifyLogin(dataAdmin);
 };
 
-module.exports = { createAdmin, loginAdmin, getAdminId };
+module.exports = { createAdmin, loginAdmin, getAdminIdByEmail, getAdminById };
 
