@@ -35,12 +35,12 @@ const candidateIsValid = async candidateChecked => {
 
     const candidateMatchedByCpf = await getCandidateByCpf(cpf);
     if (candidateMatchedByCpf !== undefined) {
-        throw ("CPF já cadastrado");
+        return false;
     }
 
     const emailChecked = await getCandidateByEmail(email);
     if (emailChecked !== undefined) {
-        throw ("Email já existe.");
+       return false;
     }
     return true;
 

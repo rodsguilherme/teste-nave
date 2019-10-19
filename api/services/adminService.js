@@ -31,12 +31,12 @@ const getAdminById = async id => {
     const idAdmin = await idAdminIsValid(id);
     if (idAdmin) {
         const searchById = 'SELECT idAdmin, name, email FROM Admin WHERE idAdmin = ?';
-        const search = await database.get(searchById, [id]);
+        const idMatched = await database.get(searchById, [id]);
 
-        return search;
+        return idMatched;
     }
 
-}
+};
 
 const adminExists = async dataAdmin => {
     const { name, password, email } = dataAdmin;
