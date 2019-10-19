@@ -1,0 +1,447 @@
+_type: export
+__export_format: 4
+__export_date: 2019-10-19T19:35:06.292Z
+__export_source: insomnia.desktop.app:v7.0.3
+resources:
+  - _id: req_09ecf516abcf4a149d61895e847363df
+    authentication: {}
+    body:
+      mimeType: application/json
+      text: |
+        {
+        	"email": "rodsguilherme@gmail.com",
+        	"password": "1234"
+        }
+    created: 1571433745130
+    description: |-
+      Seleciona o administrador correspondente com email e senha.
+      retorna 200 se estiver tudo ok ou 401 se der erro.
+    headers:
+      - id: pair_24574f15207c469dbd594581778e42c4
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1571433745130
+    method: POST
+    modified: 1571496243205
+    name: login admin
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://localhost:3000/api/login
+    _type: request
+  - _id: fld_42925e95a5df43c6bc0c81e224ec793b
+    created: 1571433725635
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1571433725635
+    modified: 1571458132540
+    name: "controle de candidatos "
+    parentId: wrk_f0359bd346904514848ef365d299413b
+    _type: request_group
+  - _id: wrk_f0359bd346904514848ef365d299413b
+    created: 1571191067982
+    description: ""
+    modified: 1571191067982
+    name: Insomnia
+    parentId: null
+    _type: workspace
+  - _id: req_bb9b8b402cf24965aad7c9e7331ad8ec
+    authentication: {}
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "guilherme",
+        	"email": "rodsguilherme@gmail.com",
+        	"password": "1234"
+        }
+    created: 1571458199991
+    description: |-
+      Cadastra administrador, verificando se ele já está cadastrado pelo email.
+      Retorna 201 se tiver criado ou 400 se der algum erro.
+    headers:
+      - id: pair_520011766703481e90c2267a49bf64a3
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1571458199991
+    method: POST
+    modified: 1571503466963
+    name: create admin
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: false
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://localhost:3000/api/admin/
+    _type: request
+  - _id: req_1b51d4fa5c9b41129617a6a9699ebcef
+    authentication:
+      prefix: Bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6eyJpZEFkbWluIjoxfSwiaWF0IjoxNTcxNTA0NDg4fQ.ZvoE5Wb8Q4rv36XdtUqXR_2ouiEjqTs2-Shx2H-CX8w
+      type: bearer
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"name": "nome3",
+        	"skill": "c#",
+        	"description": "description"
+        }
+    created: 1571458255772
+    description: |-
+      Cadastra uma nova vaga.
+      Retorna 201 se tiver criado ou 400 se der algum erro.
+    headers:
+      - id: pair_6d533c2eabd44e06adb20097bf52d413
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1571458255772
+    method: POST
+    modified: 1571511286018
+    name: create vacancy
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: false
+    url: http://localhost:3000/api/admin/vagas/
+    _type: request
+  - _id: req_44151d9144e34fa79f97cf8c348c44cd
+    authentication:
+      prefix: Bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6eyJpZEFkbWluIjoxfSwiaWF0IjoxNTcxNDk2MjI5fQ.cYp_eOFU57ETJXTkpmUdKBNhuvvPmTw6kjF2aOGN6Dg
+      type: bearer
+    body:
+      mimeType: application/json
+      text: >-
+        {
+        	"idSubs": "1",
+        	"commentary": "Etiam dignissim elit et mauris feugiat euismod. Mauris vitae erat ac augue ullamcorper fermentum vel in orci. Nam luctus semper diam et maximus. "
+        }
+    created: 1571458587612
+    description: |
+      Cria comentario sobre o candidato, busca a vaga candidata pelo idSub.
+      Retorna 201 se tiver criado ou 400 se der algum erro.
+    headers:
+      - id: pair_70c6d0e7e1044bf3b5a2d89ff3a00067
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1571458587612
+    method: POST
+    modified: 1571511612715
+    name: create commentary
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://localhost:3000/api/admin/subs/comentario
+    _type: request
+  - _id: req_283041e0ad684be28f8261160e2c73e7
+    authentication:
+      prefix: Bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6eyJpZEFkbWluIjoxfSwiaWF0IjoxNTcxNTAzNTAyfQ.n-7NA93nS6EFw6tZ9ucQzTewaU62Xj-R6HMfrmr6JIA
+      type: bearer
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	 "name": "guilherme",
+           "email": "rodgs@mail.com",
+           "telephone": "(53) 99900-6114",
+            "cpf": "077.247.000-60"
+        }
+    created: 1571458630312
+    description: |
+      Cadastra comentario sobre o candidato, busca a vaga candidata pelo idSub.
+      Retorna 201 se tiver criado ou 400 se der algum erro.
+    headers:
+      - id: pair_a08df684b5db43ff92c2b69fadc581f8
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1571458608962
+    method: POST
+    modified: 1571504630690
+    name: create candidate
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://localhost:3000/api/admin/candidato/
+    _type: request
+  - _id: req_4c771736af45440da4ef9a3e69119274
+    authentication:
+      prefix: Bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6eyJpZEFkbWluIjoxfSwiaWF0IjoxNTcxNTAxMzUwfQ.Cj-5CSKwSooH5lqIlBjd3Z7Pg8GRGb5ShYfMufOW3mo
+      type: bearer
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"idVacancy": "1",
+        	"idCandidate": "1"
+        	
+        }	
+    created: 1571458687561
+    description: |-
+      Cadastra candidato na vaga, pelo id do candidato e o id da vaga.
+      Também armazena o autor da inscrição pelo id do Administrador.
+      Retorna 201 se tiver criado ou 400 se der algum erro.
+    headers:
+      - id: pair_15068780344841a69ab19613c7914dbe
+        name: Content-Type
+        value: application/json
+    isPrivate: false
+    metaSortKey: -1571458687561
+    method: POST
+    modified: 1571511302315
+    name: create subscription
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://localhost:3000/api/admin/subs/
+    _type: request
+  - _id: req_bb2dec26ea634d55b2be266efec96dbe
+    authentication:
+      prefix: Bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6eyJpZEFkbWluIjoxfSwiaWF0IjoxNTcxNDkxNjUzfQ.68GrdAbTKK5WvW89GtqU3pgH7zsuHsAEIG3_m8Tyugo
+      type: bearer
+    body: {}
+    created: 1571489672621
+    description: >
+      Retorna candidato pelo id passado na url.
+
+      Retorna 200 se tiver tudo OK, 404 se o candidato não existir ou 401 se o token não for autorizado.
+    headers: []
+    isPrivate: false
+    metaSortKey: -1571489672621
+    method: GET
+    modified: 1571511930380
+    name: get candidate by id
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://localhost:3000/api/admin/candidato/1
+    _type: request
+  - _id: req_503b094dd2b14d1a975eb585b974b6d3
+    authentication:
+      prefix: Bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6eyJpZEFkbWluIjoxfSwiaWF0IjoxNTcxNDkwODkxfQ.F2-Jw9jpE5g8OBFdNX0s0pMo1o6Wkkr1WMlq-tz17Yg
+      type: bearer
+    body: {}
+    created: 1571489833089
+    description: >-
+      Retorna administrador pelo id passado na URL.
+
+      Se estiver tudo Ok retorna 200, Se não achar id 404, se der erro de autorização retorna 401.
+    headers: []
+    isPrivate: false
+    metaSortKey: -1571489833089
+    method: GET
+    modified: 1571493761956
+    name: get admin by id
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://localhost:3000/api/admin/1
+    _type: request
+  - _id: req_7b7e85aa76d04f018cf8be1f2abc011a
+    authentication:
+      prefix: Bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6eyJpZEFkbWluIjoxfSwiaWF0IjoxNTcxNDkyOTI2fQ.NmQY1-1LxGH-kBl6saT7QbYFEE_btyAbmiJY58_CNmI
+      type: bearer
+    body: {}
+    created: 1571491829760
+    description: >
+      Retorna Vaga pelo id passado na URL.
+
+      Retorna 200 se tiver tudo OK, 404 se o candidato não existir ou 401 se o token não for autorizado.
+    headers: []
+    isPrivate: false
+    metaSortKey: -1571491829760
+    method: GET
+    modified: 1571492996712
+    name: get vacancy by id
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://localhost:3000/api/admin/vagas/1
+    _type: request
+  - _id: req_e10cef265bc94778879b8b97f3531431
+    authentication:
+      prefix: Bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6eyJpZEFkbWluIjoxfSwiaWF0IjoxNTcxNDkzODAxfQ.mnUdv_ObaCLHaPs9cLw0TVnY4KTcJDV9Pihxq51M-dY
+      type: bearer
+    body: {}
+    created: 1571493704016
+    description: >-
+      Retorna inscrição e comentario pelo id do candidato passado na URL.
+
+      Se estiver tudo Ok retorna 200, Se não achar id 404, se der erro de autorização retorna 401.
+    headers: []
+    isPrivate: false
+    metaSortKey: -1571493704016
+    method: GET
+    modified: 1571512459730
+    name: get subscription by id
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://localhost:3000/api/admin/vagas/subs/1
+    _type: request
+  - _id: req_2b5da712d9cb48f0b4dd5f1043d7ffe8
+    authentication:
+      prefix: Bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6eyJpZEFkbWluIjoxfSwiaWF0IjoxNTcxNDk3MjI5fQ.I0RKUwjoIRXIkSLvUo6uoFXPi0hiN3wal17n2Kxzh_Q
+      type: bearer
+    body: {}
+    created: 1571496491306
+    description: >
+      Retorna todos os adminstrador cadastrados.
+
+      Retorna 200 se tiver tudo OK, 400 se der erro ou 401 se o token não for autorizado.
+    headers: []
+    isPrivate: false
+    metaSortKey: -1571496491306
+    method: GET
+    modified: 1571499905799
+    name: get all admins
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://localhost:3000/api/admin/
+    _type: request
+  - _id: req_2d94c208821340ffa1b9efa74cd33223
+    authentication:
+      prefix: Bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6eyJpZEFkbWluIjoxfSwiaWF0IjoxNTcxNDk5Mjg2fQ.eCZFj-RVvTvRgDTSq1kR1dMRHhrOoJT0d1xQqh8_VcY
+      type: bearer
+    body: {}
+    created: 1571498261665
+    description: |-
+      Retorna todos os candidatos cadastrados.
+      Retorna 200 se estiver OK, 400 se der erro ou 401 se não for autorizado.
+    headers: []
+    isPrivate: false
+    metaSortKey: -1571498261665
+    method: GET
+    modified: 1571499308134
+    name: get all candidates
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://localhost:3000/api/admin/candidato/
+    _type: request
+  - _id: req_bdceeb8899984de59d9cf5971e40dd1f
+    authentication:
+      prefix: Bearer
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6eyJpZEFkbWluIjoxfSwiaWF0IjoxNTcxNTAxMzUwfQ.Cj-5CSKwSooH5lqIlBjd3Z7Pg8GRGb5ShYfMufOW3mo
+      type: bearer
+    body: {}
+    created: 1571499927507
+    description: >-
+      Retorna todas as vagas cadastradas.
+
+      Retorna 200 se estiver tudo OK, 400 se der erro ou 401 se não for autorizado.
+    headers: []
+    isPrivate: false
+    metaSortKey: -1571499927507
+    method: GET
+    modified: 1571506455254
+    name: get all vacancys
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: false
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://localhost:3000/api/admin/vagas/
+    _type: request
+  - _id: req_10bb1f2e2ffa4e019dfcb6161d3658c2
+    authentication:
+      token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6eyJpZEFkbWluIjoxfSwiaWF0IjoxNTcxNTAxMzUwfQ.Cj-5CSKwSooH5lqIlBjd3Z7Pg8GRGb5ShYfMufOW3mo
+      type: bearer
+    body: {}
+    created: 1571501781835
+    description: ""
+    headers: []
+    isPrivate: false
+    metaSortKey: -1571501781835
+    method: GET
+    modified: 1571506693703
+    name: get all subscriptions
+    parameters: []
+    parentId: fld_42925e95a5df43c6bc0c81e224ec793b
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingSendCookies: true
+    settingStoreCookies: true
+    url: http://localhost:3000/api/admin/subs/
+    _type: request
+  - _id: env_259011418bbacc02c4497675ea6d516c69e58bd2
+    color: null
+    created: 1571191068093
+    data: {}
+    dataPropertyOrder: null
+    isPrivate: false
+    metaSortKey: 1571191068093
+    modified: 1571191068093
+    name: Base Environment
+    parentId: wrk_f0359bd346904514848ef365d299413b
+    _type: environment
+  - _id: jar_259011418bbacc02c4497675ea6d516c69e58bd2
+    cookies: []
+    created: 1571191068098
+    modified: 1571191068098
+    name: Default Jar
+    parentId: wrk_f0359bd346904514848ef365d299413b
+    _type: cookie_jar
