@@ -45,6 +45,13 @@ const getVacancyById = async id => {
     }
 };
 
-module.exports = { createVacancy, vacancyExists, getVacancyById };
+const getAllVacancys = async () => {
+    const searchVacancys = 'SELECT * FROM Vacancy ORDER BY idVacancy';
+    const vacancys = await database.all(searchVacancys);
+
+    return vacancys;
+};
+
+module.exports = { createVacancy, vacancyExists, getVacancyById, getAllVacancys };
 
 
